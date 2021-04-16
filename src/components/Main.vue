@@ -67,15 +67,22 @@ export default {
                     const _icds  = res.data[3]
                     _icds.forEach((obj) => {
                         
-                        this.icd.Name = obj[0]
-                        this.icd.Description = obj[1]
-                        this.icds.push(this.icd)
+                        console.log(obj)
+
+                        const code = {
+                            Name: obj[0],
+                            Description: obj[1] 
+                        }
+
+                        // this.icd.Name = obj[0]
+                        // this.icd.Description = obj[1]
+                        this.icds.push(code)
 
                     })
 
                 }              
 
-               
+               console.log(res.data[3])
                 this.isLoading = false
 
             })
