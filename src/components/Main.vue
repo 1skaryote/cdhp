@@ -43,25 +43,39 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            baseURL: 'http://www.icd10api.com/?',
+            baseURL: 'https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?',
             icds: [],
             isLoading: false,
             isFullPage: true,
-            icdCode: ''
+            icdCode: '',
+            icd: {
+                Name: '',
+                Description: ''
+            }
         }
     },
     methods: {
         onSearchClick() {            
 
             this.isLoading = true
-            axios.get(this.baseURL+'s='+this.icdCode+'&desc=short&r=json').then((res)=> {
+            axios.get(this.baseURL+'terms='+this.icdCode).then((res)=> {
                 
-                this.icds = []
+                this.icds = []              
 
-                if(res.data.Search.length > 0) {
-                    this.icds = res.data.Search
-                }               
+                if(res.data[3].length > 0) {
+                   
+                    const _icds  = res.data[3]
+                    _icds.forEach((obj) => {
+                        
+                        this.icd.Name = obj[0]
+                        this.icd.Description = obj[1]
+                        this.icds.push(this.icd)
 
+                    })
+
+                }              
+
+               
                 this.isLoading = false
 
             })
